@@ -1,0 +1,130 @@
+:root {
+  --mx: 50vw; /* posição X suavizada do mouse */
+  --my: 50vh; /* posição Y suavizada do mouse */
+  --spot-size: 35vmax;    /* tamanho do “facho” */
+  --spot-strength: 0.18;  /* intensidade do brilho central */
+  --bg-1: #0f0f10;
+  --bg-2: #1a1a1c;
+}
+
+/* Acessibilidade: se o usuário prefere menos movimento, travamos o efeito no centro */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mx: 50vw;
+    --my: 50vh;
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+  overflow: hidden;
+  position: relative;
+}
+
+/* Camada do efeito que acompanha o mouse */
+.dynamic-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* Glow multi-camadas pra ficar mais bonito */
+  background:
+    radial-gradient(
+      circle at var(--mx) var(--my),
+      rgba(255,255,255,var(--spot-strength)) 0%,
+      rgba(255,255,255,0.08) 12%,
+      rgba(255,255,255,0.03) 26%,
+      transparent 45%
+    );
+  filter: blur(40px);
+  will-change: background;
+}
+
+/* Seu card */
+.container {
+  width: 340px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.bold {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.card-img img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #eee;
+  transition: transform 0.3s ease;
+}
+
+.card-img img:hover {
+  transform: scale(1.05);
+}
+
+.info h2 {
+  font-size: 20px;
+  margin: 10px 0 5px;
+  color: #555;
+}
+
+.info p {
+  font-size: 14px;
+  color: #777;
+  margin: 0;
+}
+
+.socials {
+  margin: 20px 0;
+}
+
+.socials .icon {
+  margin: 0 10px;
+  transition: transform 0.01s ease;
+  cursor: pointer;
+}
+
+.socials .icon:hover {
+  transform: scale(1.1);
+}
+
+.actions .custom-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.01s ease, transform 0.2s ease;
+}
+
+.actions .custom-button:hover {
+  background-color: #555;
+  transform: scale(1.05);
+}
